@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import quote_plus
+from time import sleep
 
 import simplebot
 from deltachat import Message
@@ -14,11 +15,8 @@ def rae(bot: DeltaBot, message: Message, replies: Replies) -> None:
     response = requests.get(search_url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-        definiciones = []
-        for class_name in ['j', 'j b']:
-            definiciones = soup.find_all(class_=class_name)
-            if definiciones:
-                break
+        sleep(1) # Agrega un retraso de 1 segundo para evitar ser bloqueado por la página web
+        definiciones = soup.find_all(class_='j')
         if definiciones:
             definiciones_text = [definicion.text.strip() for definicion in definiciones]
             definiciones_text = '\n'.join(definiciones_text)
