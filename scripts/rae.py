@@ -10,11 +10,15 @@ from simplebot.bot import DeltaBot, Replies
 def rae(bot: DeltaBot, message: Message, replies: Replies) -> None:
     """Buscar definiciones en la RAE."""
     palabra = message.text.replace("/rae ", "")
-    search_url = f"https://dle.rae.es/{quote_plus(palabra)}"
+    search_url = f"https://dle.rae.es/{quote_plus(palabra)}?m=form"
     response = requests.get(search_url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-        definiciones = soup.find_all(class_='j')
+        definiciones = []
+        for class_name in ['j', 'j b']:
+            definiciones = soup.find_all(class_=class_name)
+            if definiciones:
+                break
         if definiciones:
             definiciones_text = [definicion.text.strip() for definicion in definiciones]
             definiciones_text = '\n'.join(definiciones_text)
