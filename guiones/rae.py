@@ -4,7 +4,6 @@ import simplebot
 from deltachat import Message
 from simplebot.bot import DeltaBot, Replies
 from bs4 import BeautifulSoup
-
 @simplebot.command()
 def rae(bot: DeltaBot, message: Message, replies: Replies) -> None:
     """Buscar definiciones en la RAE."""
