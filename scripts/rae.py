@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 import requests
 from bs4 import BeautifulSoup
-from simplebot_instanview import show
+from simplebot_instantview import show
 
 @simplebot.command()
 def rae(bot: DeltaBot, message: Message, replies: Replies) -> None:
