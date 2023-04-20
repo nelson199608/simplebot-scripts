@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 def rae(bot: DeltaBot, message: Message, replies: Replies) -> None:
     """Buscar definiciones en la RAE."""
     palabra = message.text.replace("/rae ", "")
-    search_url = f"https://dle.rae.es/{palabra}"
+    search_url = f"https://dle.rae.es/{palabra}?m=form"
     response = requests.get(search_url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
