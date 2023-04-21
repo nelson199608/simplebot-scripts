@@ -2,11 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 from gtts import gTTS
 import os
-
 import simplebot
 from deltachat import Message
 from simplebot.bot import DeltaBot, Replies
-
 @simplebot.command()
 def tts(bot: DeltaBot, message: Message, replies: Replies) -> None:
     """Convertir texto a voz."""
