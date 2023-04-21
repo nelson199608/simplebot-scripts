@@ -1,15 +1,17 @@
+import requests
+from bs4 import BeautifulSoup
 from gtts import gTTS
-Import simplebot
+import os
+
+import simplebot
 from deltachat import Message
-from pyppeteer import launch  # noqa
 from simplebot.bot import DeltaBot, Replies
 
 @simplebot.command()
-def tts(bot: DeltaBot, message: Message, replies: Replies) -> None:
-
-def main():
-  tts = gTTS('hello')
-  tts.save('hello.mp3')
-
-if __name__ == "__main__":
-  main()
+def text_to_speech(bot: DeltaBot, message: Message, replies: Replies) -> None:
+    """Convertir texto a voz."""
+    texto = message.text.replace("/speech ", "")
+    tts = gTTS(texto, lang='es')
+    tts.save("speech.mp3")
+    os.system("mpg321 speech.mp3") # Reproducir el archivo de audio utilizando mpg321
+    replies.add(text=f"Convertido texto a voz: '{texto}'", quote=message)
