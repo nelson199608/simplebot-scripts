@@ -1,5 +1,4 @@
 from urllib.parse import quote_plus
-
 import simplebot
 from deltachat import Message
 from simplebot.bot import DeltaBot, Replies
