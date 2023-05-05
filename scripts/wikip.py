@@ -1,20 +1,18 @@
-from urllib.parse import quote_plus
 import simplebot
-from deltachat import Message
-from simplebot.bot import DeltaBot, Replies
-from simplebot_instantview import prepare_html, session  # noqa
+from deltabot import DeltaBot
+from wikipedia import wikipedia
+from simplebot_instantview import generate_iv
 
+@simplebot.command
+def wiki(bot: DeltaBot, payload: str, message: simplebot.Message) -> None:
+    try:
+        page = wikipedia.page(payload)
+        summary = wikipedia.summary(payload)
+        iv_url = generate_iv(f"{page.title}\n\n{summary}")
+        bot.send_text(message.chat, f"{page.title}\n\n{summary}\n\n{iv_url}")
+    except wikipedia.exceptions.PageError:
+        bot.send_text(message.chat, f"No se encontró una página de Wikipedia para: {payload}")
+    except wikipedia.exceptions.DisambiguationError as e:
+        bot.send_text(message.chat, f"{e}\n\nPor favor especifica más tu búsqueda.")
 
-@simplebot.command()
-def wiki(bot: DeltaBot, message: Message, replies: Replies) -> None:
-    """Send me any text in private to search in Wikipedia."""
-    if not replies.has_replies() and not message.chat.is_multiuser() and message.text:
-        text, html = _search(bot.self_contact.addr, message.text)
-        replies.add(text=text or "Search results", html=html, quote=message)
-
-
-def _search(bot_addr: str, query: str) -> tuple:
-     query = query.replace("/wiki", "") 
-     with session.get(f"https://es.wikipedia.org/w/index.php?title=Special:Search&limit=20&offset=0&ns0=1&search={quote_plus(query)}") as resp:
-         resp.raise_for_status()
-         return prepare_html(bot_addr, resp.url, resp.text)
+simplebot.run()
