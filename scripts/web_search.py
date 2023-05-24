@@ -15,6 +15,6 @@ def search_filter(bot: DeltaBot, message: Message, replies: Replies) -> None:
 
 
 def _search(bot_addr: str, query: str) -> tuple:
-    with session.get(f"https://duckduckgo.com/?q={quote_plus(query)}ia=web") as resp:
+    with session.get(f"https://duckduckgo.com/?q={quote_plus(query)}") as resp:
         resp.raise_for_status()
         return prepare_html(bot_addr, resp.url, resp.text)
