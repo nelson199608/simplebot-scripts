@@ -5,8 +5,7 @@ from simplebot_instantview import prepare_html, session
 from urllib.parse import quote_plus
 
 @simplebot.filter(trylast=True)
-def search_filter(bot: DeltaBot, message: Message, replies: Replies) -> 
-None:
+def search_filter(bot: DeltaBot, message: Message, replies: Replies) -> None:
      """Send me any text in private to search in the web."""
      if not replies.has_replies() and not message.chat.is_multiuser() and 
 message.text:
